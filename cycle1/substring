@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+   int str[26],i,j,n,flag,sublen=0,start,end;
+   char s[30];
+   printf("Enter the string: ");
+   scanf("%s",s);
+   n=strlen(s);
+   for(i=0;i<n;i++)
+   {
+      for(j=0;j<26;j++)
+      {
+         str[j]=0;
+      }
+      flag=0;
+      for(j=i;j<n;j++)
+      {
+         if (str[s[j]-'a']==1)
+         {
+            break;
+         }
+         else
+         {
+            str[s[j]-'a']=1;
+            flag++;
+         }
+      }
+      if(sublen<flag)
+      {
+         sublen=flag;
+         start=i;
+         end=j;
+      }
+   }
+   printf("Length of longest substring is: %d",sublen);
+   printf("\nLongest substring is: ");
+   for(i=start;i<end;i++)
+   {
+      printf("%c",s[i]);
+   }
+   printf("\n");
+}
