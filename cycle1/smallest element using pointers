@@ -1,0 +1,19 @@
+#include <stdio.h>
+int main()
+{
+   int a[10],n,i,small;
+   printf("Enter number of elements: ");
+   scanf("%d",&n);
+   printf("Enter the elements: ");
+   for(i=0;i<n;i++)
+   {
+       scanf("%d",&a[i]);
+   }
+   small=*a;
+   for(i=0;i<n;i++)
+   {
+       if(*(a+i)<small)
+          small=*(a+i);
+   }
+   printf("Smallest element is: %d\n",small);
+}
