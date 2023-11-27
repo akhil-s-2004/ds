@@ -1,0 +1,124 @@
+#include <stdio.h>
+
+#define size 50
+int stack[size];
+int top=-1;
+void push(int item)
+{
+        if(top==size-1)
+        {
+                printf("stack overflow\n");
+        }
+        else
+        {
+                top++;
+                stack[top]=item;
+        }
+}
+
+int pop()
+{
+        int item;
+        if(top==-1)
+        {
+                printf("stack underflow\n");
+        }
+        else
+        {
+                item=stack[top];
+                top=top-1;
+        }
+        return item;
+}
+
+int precedence(char ch)
+{
+        if(ch=='+' || ch=='-')
+                return 1;
+        else if(ch=='*' || ch=='/')
+                return 2;
+        else if(ch=='^')
+                return 3;
+        else
+                return -1;
+}
+
+int strlength(char *str)
+{
+        int length=0,len=0,i=0;
+        while(*(str+i)!='\0')
+        {
+                i++;
+                len++;
+        }
+        length=len;
+        return length;
+}
+void reversestr(char *str)
+{
+        char temp;
+        int length,i=0,len=0;
+        while(*(str+i)!='\0')
+        {
+                i++;
+                len++;
+        }
+        length=len;
+        for(i=0;i<length/2;i++)
+        {
+                temp=str[i];
+                str[i]=str[length-i-1];
+                str[length-i-1]=temp;
+        }
+}
+
+
+void infixtoprefix(char infix[],char prefix[])
+{
+        int i=0,j=0,len=0;
+        char item,x;
+        len=strlength(infix);
+        for(i=len;i>=0;i--)
+        {
+                item=infix[i];
+                if(item==')')
+                        push(item);
+                else if(item>='0' && item<='9')
+                {
+                        prefix[j++]=item;
+                }
+                else if(item==')')
+                {
+                        while(stack[top]!='(')
+                        {
+                                prefix[j++]=pop();
+                        }
+                        pop();
+                }
+                else
+                {
+                        while(precedence(stack[top])>precedence(item))
+                        {
+                                prefix[j++]=pop();
+                        }
+                        push(item);
+                }
+        }
+        while(top!=-1)
+                prefix[j++]=pop();
+        prefix[j]='\0';
+        reversestr(prefix);
+}
+
+
+
+int main(void)
+{
+        char infix[size],prefix[size];
+        printf("enter the infix expression : ");
+        scanf(" %s",infix);
+        infixtoprefix(infix,prefix);
+        printf("Prefix expression : ");
+        printf(" %s",prefix);
+        printf("\n");
+}
